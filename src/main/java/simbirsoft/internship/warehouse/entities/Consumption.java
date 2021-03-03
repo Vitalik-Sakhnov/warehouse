@@ -1,6 +1,8 @@
 package simbirsoft.internship.warehouse.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "consumption")
+@ApiModel(value = "model consumption")
 public class Consumption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +33,6 @@ public class Consumption {
     private Order order;
 
     @Column(name = "quantity_of_goods", nullable = false)
+    @ApiModelProperty(value = "quantity of goods", example = "123")
     private Long goodsQuantity;
 }
