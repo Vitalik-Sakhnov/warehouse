@@ -1,0 +1,234 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Vitaliy Sakhnov
+      changes:
+        - createTable:
+            tableName: store
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints: {primaryKey: true, nullable: false}
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints: {nullable: false}
+
+  - changeSet:
+      id: 2
+      author: Vitaliy Sakhnov
+      changes:
+        - createTable:
+            tableName: product_group
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints: {primaryKey: true, nullable: false}
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints: {nullable: false}
+
+  - changeSet:
+      id: 3
+      author: Vitaliy Sakhnov
+      changes:
+        - createTable:
+            tableName: order
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints: {primaryKey: true, nullable: false}
+              - column:
+                  name: order_price
+                  type: double
+                  constraints: {nullable: false}
+              - column:
+                  name: order_date
+                  type: date
+                  constraints: {nullable: false}
+
+  - changeSet:
+      id: 4
+      author: Vitaliy Sakhnov
+      changes:
+        - createTable:
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints: {primaryKey: true, nullable: false}
+              - column:
+                  name: group_id
+                  type: bigint
+                  constraints: {nullable: false}
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints: {nullable: false}
+              - column:
+                  name: price
+                  type: double
+                  constraints: {nullable: false}
+        - addForeignKeyConstraint:
+            - constraintName: fk_product
+            - baseTableName: product
+            - baseColumnNames:  group_id
+            - referencedTableName: product_group
+            - referencedColumnNames: id
+
+  - changeSet:
+      id: 5
+      author: Vitaliy Sakhnov
+      changes:
+        - createTable:
+            tableName: warehouse
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints: {primaryKey: true, nullable: false}
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints: {nullable: false}
+              - column:
+                  name: store_id
+                  type: bigint
+                  constraints: {nullable: false}
+              - column:
+                  name: quantity_of_goods
+                  type: bigint
+                  constraints: {nullable: false}
+        - addForeignKeyConstraint:
+            - constraintName: fk_warehouse_product
+            - baseTableName: warehouse
+            - baseColumnNames:  product_id
+            - referencedTableName: product
+            - referencedColumnNames: id
+        - addForeignKeyConstraint:
+            - constraintName: fk_warehouse_store
+            - baseTableName: warehouse
+            - baseColumnNames:  store_id
+            - referencedTableName: store
+            - referencedColumnNames: id
+
+  - changeSet:
+      id: 6
+      author: Vitaliy Sakhnov
+      changes:
+        - createTable:
+            tableName: consumption
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints: {primaryKey: true, nullable: false}
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints: {nullable: false}
+              - column:
+                  name: order_id
+                  type: bigint
+                  constraints: {nullable: false}
+              - column:
+                  name: quantity_of_goods
+                  type: bigint
+                  constraints: {nullable: false}
+        - addForeignKeyConstraint:
+            - constraintName: fk_consumption_product
+            - baseTableName: consumption
+            - baseColumnNames:  product_id
+            - referencedTableName: product
+            - referencedColumnNames: id
+        - addForeignKeyConstraint:
+            - constraintName: fk_consumption_order
+            - baseTableName: consumption
+            - baseColumnNames:  order_id
+            - referencedTableName: order
+            - referencedColumnNames: id
+
+  - changeSet:
+      id: 7
+      author: Vitaliy Sakhnov
+      changes:
+        - createTable:
+            tableName: supply
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints: {primaryKey: true, nullable: false}
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints: {nullable: false}
+              - column:
+                  name: quantity_of_goods
+                  type: bigint
+                  constraints: {nullable: false}
+              - column:
+                  name: approved
+                  type: boolean
+                  constraints: {nullable: false}
+              - column:
+                  name: supply_date
+                  type: date
+                  constraints: {nullable: false}
+        - addForeignKeyConstraint:
+            - constraintName: fk_supply
+            - baseTableName: supply
+            - baseColumnNames:  product_id
+            - referencedTableName: product
+            - referencedColumnNames: id
+
+  - changeSet:
+      id: 8
+      author: Vitaliy Sakhnov
+      changes:
+        - createTable:
+            tableName: write_off
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints: {primaryKey: true, nullable: false}
+              - column:
+                  name: reason
+                  type: varchar(255)
+                  constraints: {nullable: false}
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints: {nullable: false}
+              - column:
+                  name: quantity_of_goods
+                  type: bigint
+                  constraints: {nullable: false}
+              - column:
+                  name: approved
+                  type: boolean
+                  constraints: {nullable: false}
+              - column:
+                  name: write_off_date
+                  type: date
+                  constraints: {nullable: false}
+        - addForeignKeyConstraint:
+            - constraintName: fk_write_off
+            - baseTableName: write_off
+            - baseColumnNames:  product_id
+            - referencedTableName: product
+            - referencedColumnNames: id
