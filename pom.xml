@@ -18,6 +18,8 @@
         <lombok.version>1.18.16</lombok.version>
         <modelmapper.version>2.3.9</modelmapper.version>
         <liquibase-maven-plagin.version>4.3.1</liquibase-maven-plagin.version>
+        <swagger-core.version>2.1.6</swagger-core.version>
+        <springfox-swagger-ui.version>3.0.0</springfox-swagger-ui.version>
     </properties>
     <dependencies>
         <dependency>
@@ -67,6 +69,15 @@
             <artifactId>modelmapper</artifactId>
             <version>${modelmapper.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
