@@ -9,27 +9,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import simbirsoft.internship.warehouse.dto.ProductDto;
 import simbirsoft.internship.warehouse.entities.Product;
-import simbirsoft.internship.warehouse.services.impl.ProductServiceImpl;
+import simbirsoft.internship.warehouse.services.ProductService;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/product")
 @Api(value = "product resources")
 public class ProductController {
-    private final ProductServiceImpl productService;
+    private final ProductService productService;
 
     private final ModelMapper modelMapper;
 
-    @GetMapping("/all")
+    @GetMapping("/products")
     @ApiOperation(value = "show all products", response = List.class)
     public List<ProductDto> findAll() {
         return modelMapper.map(
@@ -39,20 +38,20 @@ public class ProductController {
         );
     }
 
-    @GetMapping("/id")
+    @GetMapping("/products/{id}")
     @ApiOperation(value = "find product by id", response = ProductDto.class)
-    public ProductDto findById(@RequestParam(name = "productId") Long productId) {
-        return modelMapper.map(productService.findById(productId), ProductDto.class);
+    public ProductDto findById(@PathVariable Long id) {
+        return modelMapper.map(productService.findById(id), ProductDto.class);
     }
 
-    @PostMapping("/new")
+    @PostMapping("/products")
     @ApiOperation(value = "create product", response = ProductDto.class)
     public ProductDto save(@RequestBody ProductDto productDto) {
         Product product = productService.save(modelMapper.map(productDto, Product.class));
         return modelMapper.map(product, ProductDto.class);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/products")
     @ApiOperation(value = "delete product by id", response = ResponseEntity.class)
     public ResponseEntity<String> deleteById(@RequestParam(name = "storeId") Long productId) {
         if (!productService.deleteById(productId)) {
@@ -64,7 +63,7 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping
+    @PostMapping("/products")
     @ApiOperation(value = "update the product", response = ProductDto.class)
     public ProductDto update(@RequestBody ProductDto storeDto) {
         Product product = productService.update(modelMapper.map(storeDto, Product.class));

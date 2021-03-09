@@ -8,24 +8,22 @@ import org.modelmapper.TypeToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import simbirsoft.internship.warehouse.dto.WarehouseDto;
 import simbirsoft.internship.warehouse.entities.Warehouse;
-import simbirsoft.internship.warehouse.services.impl.WarehouseServiceImpl;
+import simbirsoft.internship.warehouse.services.WarehouseService;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/warehouse")
 @Api(value = "warehouse resources")
 public class WarehouseController {
-    private final WarehouseServiceImpl warehouseService;
+    private final WarehouseService warehouseService;
 
     private final ModelMapper modelMapper;
 
-    @GetMapping("/all")
+    @GetMapping("/warehouses")
     @ApiOperation(value = "show all warehouses", response = List.class)
     public List<WarehouseDto> findAll() {
         return modelMapper.map(
@@ -35,7 +33,7 @@ public class WarehouseController {
         );
     }
 
-    @PostMapping("/new")
+    @PostMapping("/warehouses")
     @ApiOperation(value = "create warehouse", response = WarehouseDto.class)
     public WarehouseDto save(@RequestBody WarehouseDto warehouseDto) {
         Warehouse warehouse = warehouseService.save(modelMapper.map(warehouseDto, Warehouse.class));
