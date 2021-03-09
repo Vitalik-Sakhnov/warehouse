@@ -2,6 +2,8 @@ package simbirsoft.internship.warehouse.services.impl;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import simbirsoft.internship.warehouse.dto.OrderDto;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+    private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+
     private OrderRepository orderRepository;
 
     private final ModelMapper modelMapper;
@@ -58,10 +62,15 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderDto findById(Long orderId) {
-        return modelMapper.map(
-                orderRepository.findById(orderId).orElseThrow(
-                        () -> new EntityNotFoundException("Entity not found")
-                ),
-                OrderDto.class);
+        Order order = null;
+        try {
+            order = orderRepository.findById(orderId).orElseThrow(
+                    () -> new EntityNotFoundException("Entity not found")
+            );
+        } catch (EntityNotFoundException ex) {
+            logger.error("EntityNotFoundException", ex);
+            ex.printStackTrace();
+        }
+        return modelMapper.map(order, OrderDto.class);
     }
 }

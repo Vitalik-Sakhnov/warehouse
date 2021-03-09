@@ -2,6 +2,8 @@ package simbirsoft.internship.warehouse.services.impl;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import simbirsoft.internship.warehouse.dto.ProductDto;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
     private ProductRepository productRepository;
 
     private final ModelMapper modelMapper;
@@ -58,12 +62,16 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public ProductDto findById(Long productId) {
-        return modelMapper.map(
-                productRepository.findById(productId).orElseThrow(
-                        () -> new EntityNotFoundException("Entity not found")
-                ),
-                ProductDto.class
-        );
+        Product product = null;
+        try {
+            product = productRepository.findById(productId).orElseThrow(
+                    () -> new EntityNotFoundException("Entity not found")
+            );
+        } catch (EntityNotFoundException ex) {
+            logger.error("EntityNotFoundException", ex);
+            ex.printStackTrace();
+        }
+        return modelMapper.map(product, ProductDto.class);
     }
 
     /**
