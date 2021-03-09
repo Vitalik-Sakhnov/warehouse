@@ -3,40 +3,33 @@ package simbirsoft.internship.warehouse.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import simbirsoft.internship.warehouse.dto.WarehouseDto;
-import simbirsoft.internship.warehouse.entities.Warehouse;
 import simbirsoft.internship.warehouse.services.WarehouseService;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/warehouses")
 @Api(value = "warehouse resources")
 public class WarehouseController {
     private final WarehouseService warehouseService;
 
-    private final ModelMapper modelMapper;
-
-    @GetMapping("/warehouses")
+    @GetMapping
     @ApiOperation(value = "show all warehouses", response = List.class)
-    public List<WarehouseDto> findAll() {
-        return modelMapper.map(
-                warehouseService.findAll(),
-                new TypeToken<List<WarehouseDto>>() {
-                }.getType()
-        );
+    public ResponseEntity<List<WarehouseDto>> findAll() {
+        return ResponseEntity.ok().body(warehouseService.findAll());
     }
 
-    @PostMapping("/warehouses")
+    @PostMapping
     @ApiOperation(value = "create warehouse", response = WarehouseDto.class)
-    public WarehouseDto save(@RequestBody WarehouseDto warehouseDto) {
-        Warehouse warehouse = warehouseService.save(modelMapper.map(warehouseDto, Warehouse.class));
-        return modelMapper.map(warehouse, WarehouseDto.class);
+    public ResponseEntity<WarehouseDto> save(@RequestBody WarehouseDto warehouseDto) {
+        return ResponseEntity.ok().body(warehouseService.save(warehouseDto));
     }
 }

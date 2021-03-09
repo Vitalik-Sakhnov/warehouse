@@ -3,61 +3,54 @@ package simbirsoft.internship.warehouse.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import simbirsoft.internship.warehouse.dto.StoreDto;
-import simbirsoft.internship.warehouse.entities.Store;
 import simbirsoft.internship.warehouse.services.StoreService;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/stores")
 @Api(value = "store resources")
 public class StoreController {
     private final StoreService storeService;
 
-    private final ModelMapper modelMapper;
-
-    @GetMapping("/stores")
+    @GetMapping
     @ApiOperation(value = "show all stores", response = List.class)
-    public List<StoreDto> findAll() {
-        return modelMapper.map(
-                storeService.findAll(),
-                new TypeToken<List<StoreDto>>() {
-                }.getType()
-        );
+    public ResponseEntity<List<StoreDto>> findAll() {
+        return ResponseEntity.ok().body(storeService.findAll());
     }
 
-    @GetMapping("/stores/{id}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "find store by id", response = StoreDto.class)
-    public StoreDto findById(@PathVariable Long id) {
-        return modelMapper.map(storeService.findById(id), StoreDto.class);
+    public ResponseEntity<StoreDto> findById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(storeService.findById(id));
     }
 
-    @GetMapping("/stores/{name}")
+    @GetMapping("/{name}")
     @ApiOperation(value = "find store by name", response = StoreDto.class)
-    public StoreDto findByName(@PathVariable String name) {
-        return modelMapper.map(storeService.findByName(name), StoreDto.class);
+    public ResponseEntity<StoreDto> findByName(@PathVariable String name) {
+        return ResponseEntity.ok().body(storeService.findByName(name));
     }
 
-    @PostMapping("/stores")
+    @PostMapping
     @ApiOperation(value = "create store", response = StoreDto.class)
-    public StoreDto save(@RequestBody StoreDto storeDto) {
-        Store store = storeService.save(modelMapper.map(storeDto, Store.class));
-        return modelMapper.map(store, StoreDto.class);
+    public ResponseEntity<StoreDto> save(@RequestBody StoreDto storeDto) {
+        return ResponseEntity.ok().body(storeService.save(storeDto));
     }
 
-    @DeleteMapping("/stores")
+    @DeleteMapping
     @ApiOperation(value = "delete store by id", response = ResponseEntity.class)
     public ResponseEntity<String> deleteById(@RequestParam(name = "storeId") Long storeId) {
         if (!storeService.deleteById(storeId)) {
@@ -69,10 +62,9 @@ public class StoreController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/stores")
+    @PutMapping
     @ApiOperation(value = "update store", response = StoreDto.class)
-    public StoreDto update(@RequestBody StoreDto storeDto) {
-        Store store = storeService.update(modelMapper.map(storeDto, Store.class));
-        return modelMapper.map(store, StoreDto.class);
+    public ResponseEntity<StoreDto> update(@RequestBody StoreDto storeDto) {
+        return ResponseEntity.ok().body(storeService.update(storeDto));
     }
 }
