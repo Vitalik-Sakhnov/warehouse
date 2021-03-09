@@ -1,6 +1,6 @@
 package simbirsoft.internship.warehouse.services;
 
-import simbirsoft.internship.warehouse.entities.Product;
+import simbirsoft.internship.warehouse.dto.ProductDto;
 
 import java.util.List;
 
@@ -8,17 +8,17 @@ public interface ProductService {
     /**
      * Метод добавления товара.
      *
-     * @param product - товар, который нужно добавить
+     * @param productDto - товар, который нужно добавить
      * @return - добавленный товар
      */
-    Product save(Product product);
+    ProductDto save(ProductDto productDto);
 
     /**
      * Метод поиска всех товаров.
      *
      * @return - список всех товаров
      */
-    List<Product> findAll();
+    List<ProductDto> findAll();
 
     /**
      * Метод поиска товара по его id.
@@ -26,7 +26,7 @@ public interface ProductService {
      * @param productId - id товара, который нужно найти
      * @return - товар, у которого id равно передаваемому
      */
-    Product findById(Long productId);
+    ProductDto findById(Long productId);
 
     /**
      * Метод удаления товара по его id.
@@ -39,8 +39,8 @@ public interface ProductService {
     /**
      * Метод обновления товара.
      *
-     * @param product - новый товар
+     * @param productDto - новый товар
      * @return - обновлённый товар
      */
-    Product update(Product product);
+    ProductDto update(ProductDto productDto);
 }

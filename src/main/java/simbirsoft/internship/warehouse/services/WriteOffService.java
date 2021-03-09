@@ -1,6 +1,6 @@
 package simbirsoft.internship.warehouse.services;
 
-import simbirsoft.internship.warehouse.entities.WriteOff;
+import simbirsoft.internship.warehouse.dto.WriteOffDto;
 
 import java.util.List;
 
@@ -8,15 +8,15 @@ public interface WriteOffService {
     /**
      * Метод добавления списания.
      *
-     * @param writeOff - информация о списании, которое нужно выполнить
+     * @param writeOffDto - информация о списании, которое нужно выполнить
      * @return - информацию о выполненном списании
      */
-    WriteOff save(WriteOff writeOff);
+    WriteOffDto save(WriteOffDto writeOffDto);
 
     /**
      * Метод поиска всех списаний.
      *
      * @return - список всех списаний
      */
-    List<WriteOff> findAll();
+    List<WriteOffDto> findAll();
 }

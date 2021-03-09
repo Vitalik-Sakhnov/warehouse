@@ -1,6 +1,6 @@
 package simbirsoft.internship.warehouse.services;
 
-import simbirsoft.internship.warehouse.entities.Order;
+import simbirsoft.internship.warehouse.dto.OrderDto;
 
 import java.util.List;
 
@@ -8,17 +8,17 @@ public interface OrderService {
     /**
      * Метод добавления заказа.
      *
-     * @param order - заказ, который нужно добавить
+     * @param orderDto - заказ, который нужно добавить
      * @return - добавленный заказ
      */
-    Order save(Order order);
+    OrderDto save(OrderDto orderDto);
 
     /**
      * Метод поиска всех заказов.
      *
      * @return - список всех заказов
      */
-    List<Order> findAll();
+    List<OrderDto> findAll();
 
     /**
      * Метод поиска заказа по его id.
@@ -26,5 +26,5 @@ public interface OrderService {
      * @param orderId - id заказа, который нужно найти
      * @return - заказ, id которого равен передаваемому
      */
-    Order findById(Long orderId);
+    OrderDto findById(Long orderId);
 }

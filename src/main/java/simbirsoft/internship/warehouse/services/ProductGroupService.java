@@ -1,6 +1,6 @@
 package simbirsoft.internship.warehouse.services;
 
-import simbirsoft.internship.warehouse.entities.ProductGroup;
+import simbirsoft.internship.warehouse.dto.ProductGroupDto;
 
 import java.util.List;
 
@@ -8,17 +8,17 @@ public interface ProductGroupService {
     /**
      * Метод добавления товарной группы.
      *
-     * @param productGroup - товарная группа, которую нужно добавить
+     * @param productGroupDto - товарная группа, которую нужно добавить
      * @return - добавленную товарную группу
      */
-    ProductGroup save(ProductGroup productGroup);
+    ProductGroupDto save(ProductGroupDto productGroupDto);
 
     /**
      * Метод поиска всех товарных групп.
      *
      * @return - список всех товарных групп
      */
-    List<ProductGroup> findAll();
+    List<ProductGroupDto> findAll();
 
     /**
      * Метод поиска товарной группы по её id.
@@ -26,7 +26,7 @@ public interface ProductGroupService {
      * @param productGroupId - id товарной группы, которую нужно найти
      * @return - товарную группу, у которой id равно передаваемому
      */
-    ProductGroup findById(Long productGroupId);
+    ProductGroupDto findById(Long productGroupId);
 
     /**
      * Метод поиска товарной группы по её наименованию.
@@ -34,7 +34,7 @@ public interface ProductGroupService {
      * @param productGroupName - наименование товарной группы, которую нужно найти
      * @return - товарную группу, у которой наименование равно передаваемому
      */
-    ProductGroup findByName(String productGroupName);
+    ProductGroupDto findByName(String productGroupName);
 
     /**
      * Метод удаления товарной группы по её id.
@@ -47,8 +47,8 @@ public interface ProductGroupService {
     /**
      * Метод обновления товарной группы.
      *
-     * @param productGroup - новая товарная группа
+     * @param productGroupDto - новая товарная группа
      * @return - обновлённая товарная группа
      */
-    ProductGroup update(ProductGroup productGroup);
+    ProductGroupDto update(ProductGroupDto productGroupDto);
 }

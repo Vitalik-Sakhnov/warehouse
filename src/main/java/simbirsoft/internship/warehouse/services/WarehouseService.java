@@ -1,6 +1,6 @@
 package simbirsoft.internship.warehouse.services;
 
-import simbirsoft.internship.warehouse.entities.Warehouse;
+import simbirsoft.internship.warehouse.dto.WarehouseDto;
 
 import java.util.List;
 
@@ -8,15 +8,15 @@ public interface WarehouseService {
     /**
      * Метод добавления товара на склад.
      *
-     * @param warehouse - информация о товаре, который нужно добавить
+     * @param warehouseDto - информация о товаре, который нужно добавить
      * @return - информацию о добавленном товаре на склад
      */
-    Warehouse save(Warehouse warehouse);
+    WarehouseDto save(WarehouseDto warehouseDto);
 
     /**
      * Метод поиска всех товаров на складе.
      *
      * @return - список всех товаров на складе
      */
-    List<Warehouse> findAll();
+    List<WarehouseDto> findAll();
 }

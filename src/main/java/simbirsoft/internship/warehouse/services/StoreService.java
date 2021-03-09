@@ -1,6 +1,6 @@
 package simbirsoft.internship.warehouse.services;
 
-import simbirsoft.internship.warehouse.entities.Store;
+import simbirsoft.internship.warehouse.dto.StoreDto;
 
 import java.util.List;
 
@@ -8,17 +8,17 @@ public interface StoreService {
     /**
      * Метод добавления магазина.
      *
-     * @param store - магазин, который нужно добавить
+     * @param storeDto - магазин, который нужно добавить
      * @return - добавленный магазин
      */
-    Store save(Store store);
+    StoreDto save(StoreDto storeDto);
 
     /**
      * Метод поиска всех магазинов.
      *
      * @return - список всех магазинов
      */
-    List<Store> findAll();
+    List<StoreDto> findAll();
 
     /**
      * Метод поиска магазина по его id.
@@ -26,7 +26,7 @@ public interface StoreService {
      * @param storeId - id магазина, который нужно найти
      * @return - магазин, у которого id равно передаваемому
      */
-    Store findById(Long storeId);
+    StoreDto findById(Long storeId);
 
     /**
      * Метод поиска магазина по его наименованию.
@@ -34,7 +34,7 @@ public interface StoreService {
      * @param storeName - наименование магазина, который нужно найти
      * @return - магазин, у которого наименование равно передаваемому
      */
-    Store findByName(String storeName);
+    StoreDto findByName(String storeName);
 
     /**
      * Метод удаления магазина по его id.
@@ -47,9 +47,9 @@ public interface StoreService {
     /**
      * Метод обновления магазина.
      *
-     * @param store - новый магазин
+     * @param storeDto - новый магазин
      * @return - обновлённый магазин
      */
-    Store update(Store store);
+    StoreDto update(StoreDto storeDto);
 
 }
