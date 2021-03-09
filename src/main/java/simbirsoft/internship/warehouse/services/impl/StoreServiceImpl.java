@@ -1,7 +1,10 @@
 package simbirsoft.internship.warehouse.services.impl;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import simbirsoft.internship.warehouse.dto.StoreDto;
 import simbirsoft.internship.warehouse.entities.Store;
 import simbirsoft.internship.warehouse.repositories.StoreRepository;
 import simbirsoft.internship.warehouse.services.StoreService;
@@ -13,21 +16,24 @@ import java.util.List;
 public class StoreServiceImpl implements StoreService {
     private StoreRepository storeRepository;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public StoreServiceImpl(StoreRepository storeRepository) {
+    public StoreServiceImpl(StoreRepository storeRepository, ModelMapper modelMapper) {
         this.storeRepository = storeRepository;
+        this.modelMapper = modelMapper;
     }
 
     /**
      * Метод добавления магазина.
      *
-     * @param store - магазин, который нужно добавить
+     * @param storeDto - магазин, который нужно добавить
      * @return - добавленный магазин
      */
     @Override
-    public Store save(Store store) {
-        storeRepository.save(store);
-        return store;
+    public StoreDto save(StoreDto storeDto) {
+        Store store = storeRepository.save(modelMapper.map(storeDto, Store.class));
+        return modelMapper.map(store, StoreDto.class);
     }
 
     /**
@@ -36,8 +42,12 @@ public class StoreServiceImpl implements StoreService {
      * @return - список всех магазинов
      */
     @Override
-    public List<Store> findAll() {
-        return storeRepository.findAll();
+    public List<StoreDto> findAll() {
+        return modelMapper.map(
+                storeRepository.findAll(),
+                new TypeToken<List<StoreDto>>() {
+                }.getType()
+        );
     }
 
     /**
@@ -47,8 +57,13 @@ public class StoreServiceImpl implements StoreService {
      * @return - магазин, у которого id равно передаваемому
      */
     @Override
-    public Store findById(Long storeId) {
-        return storeRepository.findById(storeId).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+    public StoreDto findById(Long storeId) {
+        return modelMapper.map(
+                storeRepository.findById(storeId).orElseThrow(
+                        () -> new EntityNotFoundException("Entity not found")
+                ),
+                StoreDto.class
+        );
     }
 
     /**
@@ -58,8 +73,8 @@ public class StoreServiceImpl implements StoreService {
      * @return - магазин, у которого наименование равно передаваемому
      */
     @Override
-    public Store findByName(String storeName) {
-        return storeRepository.findByName(storeName);
+    public StoreDto findByName(String storeName) {
+        return modelMapper.map(storeRepository.findByName(storeName), StoreDto.class);
     }
 
     /**
@@ -71,7 +86,8 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public boolean deleteById(Long storeId) {
         if (storeRepository.existsById(storeId)) {
-            if (findById(storeId).getWarehouses().isEmpty()) {
+
+            if (storeRepository.getOne(storeId).getWarehouses().isEmpty()) {
                 storeRepository.deleteById(storeId);
                 return true;
             }
@@ -82,14 +98,11 @@ public class StoreServiceImpl implements StoreService {
     /**
      * Метод обновления магазина.
      *
-     * @param store - новый магазин
+     * @param storeDto - новый магазин
      * @return - обновлённый магазин
      */
     @Override
-    public Store update(Store store) {
-        if (store.getId() != null) {
-            storeRepository.save(store);
-        }
-        return store;
+    public StoreDto update(StoreDto storeDto) {
+        return save(storeDto);
     }
 }

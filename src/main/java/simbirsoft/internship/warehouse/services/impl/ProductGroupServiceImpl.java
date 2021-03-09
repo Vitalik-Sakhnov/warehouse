@@ -1,7 +1,10 @@
 package simbirsoft.internship.warehouse.services.impl;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import simbirsoft.internship.warehouse.dto.ProductGroupDto;
 import simbirsoft.internship.warehouse.entities.ProductGroup;
 import simbirsoft.internship.warehouse.repositories.ProductGroupRepository;
 import simbirsoft.internship.warehouse.services.ProductGroupService;
@@ -13,21 +16,24 @@ import java.util.List;
 public class ProductGroupServiceImpl implements ProductGroupService {
     private ProductGroupRepository groupRepository;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public ProductGroupServiceImpl(ProductGroupRepository groupRepository) {
+    public ProductGroupServiceImpl(ProductGroupRepository groupRepository, ModelMapper modelMapper) {
         this.groupRepository = groupRepository;
+        this.modelMapper = modelMapper;
     }
 
     /**
      * Метод добавления товарной группы.
      *
-     * @param productGroup - товарная группа, которую нужно добавить
+     * @param productGroupDto - товарная группа, которую нужно добавить
      * @return - добавленную товарную группу
      */
     @Override
-    public ProductGroup save(ProductGroup productGroup) {
-        groupRepository.save(productGroup);
-        return productGroup;
+    public ProductGroupDto save(ProductGroupDto productGroupDto) {
+        ProductGroup group = groupRepository.save(modelMapper.map(productGroupDto, ProductGroup.class));
+        return modelMapper.map(group, ProductGroupDto.class);
     }
 
     /**
@@ -36,8 +42,12 @@ public class ProductGroupServiceImpl implements ProductGroupService {
      * @return - список всех товарных групп
      */
     @Override
-    public List<ProductGroup> findAll() {
-        return groupRepository.findAll();
+    public List<ProductGroupDto> findAll() {
+        return modelMapper.map(
+                groupRepository.findAll(),
+                new TypeToken<List<ProductGroupDto>>() {
+                }.getType()
+        );
     }
 
     /**
@@ -47,9 +57,12 @@ public class ProductGroupServiceImpl implements ProductGroupService {
      * @return - товарную группу, у которой id равно передаваемому
      */
     @Override
-    public ProductGroup findById(Long productGroupId) {
-        return groupRepository.findById(productGroupId).orElseThrow(()
-                -> new EntityNotFoundException("Entity not found"));
+    public ProductGroupDto findById(Long productGroupId) {
+        return modelMapper.map(
+                groupRepository.findById(productGroupId).orElseThrow(()
+                        -> new EntityNotFoundException("Entity not found")),
+                ProductGroupDto.class
+        );
     }
 
     /**
@@ -59,8 +72,8 @@ public class ProductGroupServiceImpl implements ProductGroupService {
      * @return - товарную группу, у которой наименование равно передаваемому
      */
     @Override
-    public ProductGroup findByName(String productGroupName) {
-        return groupRepository.findByName(productGroupName);
+    public ProductGroupDto findByName(String productGroupName) {
+        return modelMapper.map(groupRepository.findByName(productGroupName), ProductGroupDto.class);
     }
 
     /**
@@ -72,7 +85,7 @@ public class ProductGroupServiceImpl implements ProductGroupService {
     @Override
     public boolean deleteById(Long productGroupId) {
         if (groupRepository.existsById(productGroupId)) {
-            if (findById(productGroupId).getProducts().isEmpty()) {
+            if (groupRepository.getOne(productGroupId).getProducts().isEmpty()) {
                 groupRepository.deleteById(productGroupId);
                 return true;
             }
@@ -83,14 +96,11 @@ public class ProductGroupServiceImpl implements ProductGroupService {
     /**
      * Метод обновления товарной группы.
      *
-     * @param productGroup - новая товарная группа
+     * @param productGroupDto - новая товарная группа
      * @return - обновлённая товарная группа
      */
     @Override
-    public ProductGroup update(ProductGroup productGroup) {
-        if (productGroup.getId() != null) {
-            groupRepository.save(productGroup);
-        }
-        return productGroup;
+    public ProductGroupDto update(ProductGroupDto productGroupDto) {
+        return save(productGroupDto);
     }
 }

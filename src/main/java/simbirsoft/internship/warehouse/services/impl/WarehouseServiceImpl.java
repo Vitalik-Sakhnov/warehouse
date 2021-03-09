@@ -1,7 +1,10 @@
 package simbirsoft.internship.warehouse.services.impl;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import simbirsoft.internship.warehouse.dto.WarehouseDto;
 import simbirsoft.internship.warehouse.entities.Warehouse;
 import simbirsoft.internship.warehouse.repositories.WarehouseRepository;
 import simbirsoft.internship.warehouse.services.WarehouseService;
@@ -12,24 +15,24 @@ import java.util.List;
 public class WarehouseServiceImpl implements WarehouseService {
     private WarehouseRepository warehouseRepository;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public WarehouseServiceImpl(WarehouseRepository warehouseRepository) {
+    public WarehouseServiceImpl(WarehouseRepository warehouseRepository, ModelMapper modelMapper) {
         this.warehouseRepository = warehouseRepository;
+        this.modelMapper = modelMapper;
     }
 
     /**
      * Метод добавления товара на склад.
      *
-     * @param warehouse - информация о товаре, который нужно добавить
+     * @param warehouseDto - информация о товаре, который нужно добавить
      * @return - информацию о добавленном товаре на склад
      */
     @Override
-    public Warehouse save(Warehouse warehouse) {
-        if (warehouse.getId() != null) {
-            warehouseRepository.deleteById(warehouse.getId());
-        }
-        warehouseRepository.save(warehouse);
-        return warehouse;
+    public WarehouseDto save(WarehouseDto warehouseDto) {
+        Warehouse warehouse = warehouseRepository.save(modelMapper.map(warehouseDto, Warehouse.class));
+        return modelMapper.map(warehouse, WarehouseDto.class);
     }
 
     /**
@@ -38,7 +41,11 @@ public class WarehouseServiceImpl implements WarehouseService {
      * @return - список всех товаров на складе
      */
     @Override
-    public List<Warehouse> findAll() {
-        return warehouseRepository.findAll();
+    public List<WarehouseDto> findAll() {
+        return modelMapper.map(
+                warehouseRepository.findAll(),
+                new TypeToken<List<WarehouseDto>>() {
+                }.getType()
+        );
     }
 }

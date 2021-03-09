@@ -1,7 +1,10 @@
 package simbirsoft.internship.warehouse.services.impl;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import simbirsoft.internship.warehouse.dto.ProductDto;
 import simbirsoft.internship.warehouse.entities.Product;
 import simbirsoft.internship.warehouse.repositories.ProductRepository;
 import simbirsoft.internship.warehouse.services.ProductService;
@@ -13,21 +16,24 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
+        this.modelMapper = modelMapper;
     }
 
     /**
      * Метод добавления товара.
      *
-     * @param product - товар, который нужно добавить
+     * @param productDto - товар, который нужно добавить
      * @return - добавленный товар
      */
     @Override
-    public Product save(Product product) {
-        productRepository.save(product);
-        return product;
+    public ProductDto save(ProductDto productDto) {
+        Product product = productRepository.save(modelMapper.map(productDto, Product.class));
+        return modelMapper.map(product, ProductDto.class);
     }
 
     /**
@@ -36,8 +42,12 @@ public class ProductServiceImpl implements ProductService {
      * @return - список всех товаров
      */
     @Override
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<ProductDto> findAll() {
+        return modelMapper.map(
+                productRepository.findAll(),
+                new TypeToken<List<ProductDto>>() {
+                }.getType()
+        );
     }
 
     /**
@@ -47,8 +57,13 @@ public class ProductServiceImpl implements ProductService {
      * @return - товар, у которого id равно передаваемому
      */
     @Override
-    public Product findById(Long productId) {
-        return productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+    public ProductDto findById(Long productId) {
+        return modelMapper.map(
+                productRepository.findById(productId).orElseThrow(
+                        () -> new EntityNotFoundException("Entity not found")
+                ),
+                ProductDto.class
+        );
     }
 
     /**
@@ -59,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public boolean deleteById(Long productId) {
-        Product product = findById(productId);
+        Product product = productRepository.getOne(productId);
         if (productRepository.existsById(productId)) {
             if (product.getConsumptions().isEmpty() && product.getSupplies().isEmpty() &&
                     product.getWarehouses().isEmpty() && product.getWriteOffs().isEmpty()) {
@@ -73,14 +88,11 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Метод обновления товара.
      *
-     * @param product - новый товар
+     * @param productDto - новый товар
      * @return - обновлённый товар
      */
     @Override
-    public Product update(Product product) {
-        if (product.getId() != null) {
-            productRepository.save(product);
-        }
-        return product;
+    public ProductDto update(ProductDto productDto) {
+        return save(productDto);
     }
 }
