@@ -5,10 +5,14 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import simbirsoft.internship.warehouse.dto.ConsumptionDto;
 import simbirsoft.internship.warehouse.entities.Consumption;
-import simbirsoft.internship.warehouse.services.impl.ConsumptionServiceImpl;
+import simbirsoft.internship.warehouse.services.ConsumptionService;
 
 import java.util.List;
 
@@ -17,7 +21,7 @@ import java.util.List;
 @RequestMapping("/consumption")
 @Api(value = "consumption resources")
 public class ConsumptionController {
-    private final ConsumptionServiceImpl consumptionService;
+    private final ConsumptionService consumptionService;
 
     private final ModelMapper modelMapper;
 
