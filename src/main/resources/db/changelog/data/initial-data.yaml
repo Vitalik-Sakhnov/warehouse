@@ -1,0 +1,156 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Vitaliy Sakhnov
+      changes:
+        - insert:
+            tableName: store
+            columns:
+              - column: {name: name, value: Pyaterochka}
+        - insert:
+            tableName: store
+            columns:
+              - column: {name: name, value: Magnet}
+        - insert:
+            tableName: store
+            columns:
+              - column: {name: name, value: Auchan}
+        - insert:
+            tableName: store
+            columns:
+              - column: {name: name, value: Mega}
+        - insert:
+            tableName: store
+            columns:
+              - column: {name: name, value: Ikea}
+
+  - changeSet:
+      id: 2
+      author: Vitaliy Sakhnov
+      changes:
+        - insert:
+            tableName: product_group
+            columns:
+              - column: {name: name, value: Christmas toys}
+        - insert:
+            tableName: product_group
+            columns:
+              - column: {name: name, value: Decorations on the tree}
+        - insert:
+            tableName: product_group
+            columns:
+              - column: {name: name, value: Tree stand}
+        - insert:
+            tableName: product_group
+            columns:
+              - column: {name: name, value: Garland}
+        - insert:
+            tableName: product_group
+            columns:
+              - column: {name: name, value: Fruit}
+
+  - changeSet:
+      id: 3
+      author: Vitaliy Sakhnov
+      changes:
+        - insert:
+            tableName: product
+            columns:
+              - column: {name: group_id, value: 1}
+              - column: {name: name, value: Chocolate figurine}
+              - column: {name: price, value: 100}
+        - insert:
+            tableName: product
+            columns:
+              - column: {name: group_id, value: 2}
+              - column: {name: name, value: Star}
+              - column: {name: price, value: 50}
+        - insert:
+            tableName: product
+            columns:
+              - column: {name: group_id, value: 3}
+              - column: {name: name, value: Small stand}
+              - column: {name: price, value: 300}
+        - insert:
+            tableName: product
+            columns:
+              - column: {name: group_id, value: 4}
+              - column: {name: name, value: Garland several colors 2m}
+              - column: {name: price, value: 200}
+        - insert:
+            tableName: product
+            columns:
+              - column: {name: group_id, value: 5}
+              - column: {name: name, value: Tangerines}
+              - column: {name: price, value: 150}
+        - insert:
+            tableName: product
+            columns:
+              - column: {name: group_id, value: 2}
+              - column: {name: name, value: Big stand}
+              - column: {name: price, value: 400}
+        - insert:
+            tableName: product
+            columns:
+              - column: {name: group_id, value: 5}
+              - column: {name: name, value: Oranges}
+              - column: {name: price, value: 500}
+        - insert:
+            tableName: product
+            columns:
+              - column: {name: group_id, value: 3}
+              - column: {name: name, value: Garland several colors 1m}
+              - column: {name: price, value: 100}
+
+  - changeSet:
+      id: 4
+      author: Vitaliy Sakhnov
+      changes:
+        - insert:
+            tableName: warehouse
+            columns:
+              - column: {name: product_id, value: 1}
+              - column: {name: store_id, value: 4}
+              - column: {name: quantity_of_goods, value: 7458}
+        - insert:
+            tableName: warehouse
+            columns:
+              - column: {name: product_id, value: 2}
+              - column: {name: store_id, value: 3}
+              - column: {name: quantity_of_goods, value: 6002}
+        - insert:
+            tableName: warehouse
+            columns:
+              - column: {name: product_id, value: 3}
+              - column: {name: store_id, value: 5}
+              - column: {name: quantity_of_goods, value: 127}
+        - insert:
+            tableName: warehouse
+            columns:
+              - column: {name: product_id, value: 4}
+              - column: {name: store_id, value: 1}
+              - column: {name: quantity_of_goods, value: 2587}
+        - insert:
+            tableName: warehouse
+            columns:
+              - column: {name: product_id, value: 5}
+              - column: {name: store_id, value: 3}
+              - column: {name: quantity_of_goods, value: 625}
+        - insert:
+            tableName: warehouse
+            columns:
+              - column: {name: product_id, value: 6}
+              - column: {name: store_id, value: 2}
+              - column: {name: quantity_of_goods, value: 254}
+        - insert:
+            tableName: warehouse
+            columns:
+              - column: {name: product_id, value: 7}
+              - column: {name: store_id, value: 4}
+              - column: {name: quantity_of_goods, value: 5000}
+        - insert:
+            tableName: warehouse
+            columns:
+              - column: {name: product_id, value: 8}
+              - column: {name: store_id, value: 5}
+              - column: {name: quantity_of_goods, value: 1000}

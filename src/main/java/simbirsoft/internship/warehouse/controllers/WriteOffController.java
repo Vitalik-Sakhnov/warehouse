@@ -1,0 +1,35 @@
+package simbirsoft.internship.warehouse.controllers;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import simbirsoft.internship.warehouse.dto.WriteOffDto;
+import simbirsoft.internship.warehouse.services.WriteOffService;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/writeOffs")
+@Api(value = "writeOff resources")
+public class WriteOffController {
+    private final WriteOffService writeOffService;
+
+    @GetMapping
+    @ApiOperation(value = "show all writeOffs", response = List.class)
+    public ResponseEntity<List<WriteOffDto>> findAll() {
+        return ResponseEntity.ok().body(writeOffService.findAll());
+    }
+
+    @PostMapping
+    @ApiOperation(value = "create writeOff", response = WriteOffDto.class)
+    public ResponseEntity<WriteOffDto> save(@RequestBody WriteOffDto writeOffDto) {
+        return ResponseEntity.ok().body(writeOffService.save(writeOffDto));
+    }
+}
