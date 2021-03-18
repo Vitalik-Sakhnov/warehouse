@@ -73,4 +73,33 @@ public class OrderServiceImpl implements OrderService {
         }
         return modelMapper.map(order, OrderDto.class);
     }
+
+    /**
+     * Метод обновления заказа.
+     *
+     * @param orderDto - новый заказ
+     * @return - обновлённый заказ
+     */
+    @Override
+    public OrderDto update(OrderDto orderDto) {
+        return save(orderDto);
+    }
+
+    /**
+     * Метод удаления заказа по его id.
+     *
+     * @param orderId - id заказа, который нужно удалить
+     * @return - true, если удаление прошло успешно, false в противном случае
+     */
+    @Override
+    public boolean deleteById(Long orderId) {
+        Order order = orderRepository.getOne(orderId);
+        if (orderRepository.existsById(orderId)) {
+            if (order.getConsumptions().isEmpty()) {
+                orderRepository.deleteById(orderId);
+                return true;
+            }
+        }
+        return false;
+    }
 }

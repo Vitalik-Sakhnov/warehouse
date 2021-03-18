@@ -5,7 +5,9 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import simbirsoft.internship.warehouse.dto.WriteOffDto;
+import simbirsoft.internship.warehouse.entities.Product;
 import simbirsoft.internship.warehouse.entities.WriteOff;
+import simbirsoft.internship.warehouse.repositories.WarehouseRepository;
 import simbirsoft.internship.warehouse.repositories.WriteOffRepository;
 import simbirsoft.internship.warehouse.services.WriteOffService;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @Service
 public class WriteOffServiceImpl implements WriteOffService {
     private WriteOffRepository writeOffRepository;
+    private WarehouseRepository warehouseRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
@@ -30,7 +33,13 @@ public class WriteOffServiceImpl implements WriteOffService {
      */
     @Override
     public WriteOffDto save(WriteOffDto writeOffDto) {
-        WriteOff writeOff = writeOffRepository.save(modelMapper.map(writeOffDto, WriteOff.class));
+        WriteOff writeOff = null;
+        if (writeOffDto.getProduct() != null) {
+            Product product = modelMapper.map(writeOffDto.getProduct(), Product.class);
+            if (writeOffDto.getGoodsQuantity() <= warehouseRepository.getByProduct(product).getGoodsQuantity()) {
+                writeOff = writeOffRepository.save(modelMapper.map(writeOffDto, WriteOff.class));
+            }
+        }
         return modelMapper.map(writeOff, WriteOffDto.class);
     }
 
