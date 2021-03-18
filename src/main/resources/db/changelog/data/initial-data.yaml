@@ -154,3 +154,26 @@ databaseChangeLog:
               - column: {name: product_id, value: 8}
               - column: {name: store_id, value: 5}
               - column: {name: quantity_of_goods, value: 1000}
+
+  - changeSet:
+      id: 5
+      author: Vitaliy Sakhnov
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column: {name: email, value: admin@mail.com}
+              - column: {name: password, value: $2y$12$MFLetVSf/DxYP4G2CB8A9ubwpI0UMfbUSNJ7S8Bob8NcQsnElF186}
+              - column: {name: first_name, value: Ivan}
+              - column: {name: last_name, value: Ivanov}
+              - column: {name: role, value: ADMIN}
+              - column: {name: status, value: ACTIVE}
+        - insert:
+            tableName: user
+            columns:
+              - column: {name: email, value: user@mail.com}
+              - column: {name: password, value: $2y$12$7LfM6c2Oy6jFChp4twWEe.2.dlQLnSwMM/4ut3KZq2vLQ3wwqjceK}
+              - column: {name: first_name, value: Petr}
+              - column: {name: last_name, value: Petrov}
+              - column: {name: role, value: USER}
+              - column: {name: status, value: ACTIVE}
