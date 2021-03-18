@@ -27,4 +27,20 @@ public interface OrderService {
      * @return - заказ, id которого равен передаваемому
      */
     OrderDto findById(Long orderId);
+
+    /**
+     * Метод обновления заказа.
+     *
+     * @param orderDto - новый заказ
+     * @return - обновлённый заказ
+     */
+    OrderDto update(OrderDto orderDto);
+
+    /**
+     * Метод удаления заказа по его id.
+     *
+     * @param orderId - id заказа, который нужно удалить
+     * @return - true, если удаление прошло успешно, false в противном случае
+     */
+    boolean deleteById(Long orderId);
 }
