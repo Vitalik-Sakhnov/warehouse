@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,18 +34,21 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('product:read')")
     @ApiOperation(value = "find product by id", response = ProductDto.class)
     public ResponseEntity<ProductDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(productService.findById(id));
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('product:write')")
     @ApiOperation(value = "create product", response = ProductDto.class)
     public ResponseEntity<ProductDto> save(@RequestBody ProductDto productDto) {
         return ResponseEntity.ok().body(productService.save(productDto));
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAnyAuthority('product:write')")
     @ApiOperation(value = "delete product by id", response = ResponseEntity.class)
     public ResponseEntity<String> deleteById(@RequestParam(name = "storeId") Long productId) {
         if (!productService.deleteById(productId)) {
@@ -57,6 +61,7 @@ public class ProductController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyAuthority('product:write')")
     @ApiOperation(value = "update the product", response = ProductDto.class)
     public ResponseEntity<ProductDto> update(@RequestBody ProductDto productDto) {
         return ResponseEntity.ok().body(productService.update(productDto));

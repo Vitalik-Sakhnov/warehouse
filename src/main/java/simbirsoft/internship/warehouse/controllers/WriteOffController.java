@@ -3,7 +3,9 @@ package simbirsoft.internship.warehouse.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +30,14 @@ public class WriteOffController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('writeOff:write')")
     @ApiOperation(value = "create writeOff", response = WriteOffDto.class)
-    public ResponseEntity<WriteOffDto> save(@RequestBody WriteOffDto writeOffDto) {
-        return ResponseEntity.ok().body(writeOffService.save(writeOffDto));
+    public ResponseEntity<String> save(@RequestBody WriteOffDto writeOffDto) {
+        if (writeOffService.save(writeOffDto) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(
+                    String.format("The product is null or the quantity of the product to be written off exceeds" +
+                            " the quantity of the product in warehouse", writeOffDto.getGoodsQuantity()));
+        }
+        return ResponseEntity.ok().build();
     }
 }

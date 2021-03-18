@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,7 @@ public class ConsumptionController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('consumption:write')")
     @ApiOperation(value = "create consumption", response = ConsumptionDto.class)
     public ResponseEntity<ConsumptionDto> save(@RequestBody ConsumptionDto consumptionDto) {
         return ResponseEntity.ok().body(consumptionService.save(consumptionDto));

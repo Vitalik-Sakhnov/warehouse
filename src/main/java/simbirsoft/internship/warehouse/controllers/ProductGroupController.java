@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,24 +34,28 @@ public class ProductGroupController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('productGroup:read')")
     @ApiOperation(value = "find product group by id", response = ProductGroupDto.class)
     public ResponseEntity<ProductGroupDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(productGroupService.findById(id));
     }
 
     @GetMapping("/{name}")
+    @PreAuthorize("hasAnyAuthority('productGroup:read')")
     @ApiOperation(value = "find product group by name", response = ProductGroupDto.class)
     public ResponseEntity<ProductGroupDto> findByName(@PathVariable String name) {
         return ResponseEntity.ok().body(productGroupService.findByName(name));
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('productGroup:write')")
     @ApiOperation(value = "create product group", response = ProductGroupDto.class)
     public ResponseEntity<ProductGroupDto> save(@RequestBody ProductGroupDto groupDto) {
         return ResponseEntity.ok().body(productGroupService.save(groupDto));
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAnyAuthority('productGroup:write')")
     @ApiOperation(value = "delete product group by id", response = ResponseEntity.class)
     public ResponseEntity<String> deleteById(@RequestParam(name = "groupId") Long groupId) {
         if (!productGroupService.deleteById(groupId)) {
@@ -63,6 +68,7 @@ public class ProductGroupController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyAuthority('productGroup:write')")
     @ApiOperation(value = "update the product group", response = ProductGroupDto.class)
     public ResponseEntity<ProductGroupDto> update(@RequestBody ProductGroupDto groupDto) {
         return ResponseEntity.ok().body(productGroupService.update(groupDto));
