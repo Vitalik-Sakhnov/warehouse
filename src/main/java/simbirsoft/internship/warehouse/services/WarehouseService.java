@@ -1,5 +1,6 @@
 package simbirsoft.internship.warehouse.services;
 
+import simbirsoft.internship.warehouse.dto.ProductDto;
 import simbirsoft.internship.warehouse.dto.WarehouseDto;
 
 import java.util.List;
@@ -19,4 +20,8 @@ public interface WarehouseService {
      * @return - список всех товаров на складе
      */
     List<WarehouseDto> findAll();
+
+    WarehouseDto getByProduct(ProductDto productDto);
+
+    WarehouseDto update(WarehouseDto warehouseDto);
 }

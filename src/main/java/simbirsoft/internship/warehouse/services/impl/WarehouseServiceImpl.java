@@ -4,7 +4,9 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import simbirsoft.internship.warehouse.dto.ProductDto;
 import simbirsoft.internship.warehouse.dto.WarehouseDto;
+import simbirsoft.internship.warehouse.entities.Product;
 import simbirsoft.internship.warehouse.entities.Warehouse;
 import simbirsoft.internship.warehouse.repositories.WarehouseRepository;
 import simbirsoft.internship.warehouse.services.WarehouseService;
@@ -47,5 +49,17 @@ public class WarehouseServiceImpl implements WarehouseService {
                 new TypeToken<List<WarehouseDto>>() {
                 }.getType()
         );
+    }
+
+    @Override
+    public WarehouseDto getByProduct(ProductDto productDto) {
+        Product product = modelMapper.map(productDto, Product.class);
+        Warehouse warehouse = warehouseRepository.getByProduct(product);
+        return modelMapper.map(warehouse, WarehouseDto.class);
+    }
+
+    @Override
+    public WarehouseDto update(WarehouseDto warehouseDto) {
+        return save(warehouseDto);
     }
 }
