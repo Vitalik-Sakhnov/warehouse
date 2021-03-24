@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import simbirsoft.internship.warehouse.dto.OrderDto;
+import simbirsoft.internship.warehouse.dto.PurchaseDto;
 import simbirsoft.internship.warehouse.services.OrderService;
 
 import java.util.List;
@@ -43,8 +44,8 @@ public class OrderController {
     @PostMapping
     @PreAuthorize("hasAnyAuthority('order:write')")
     @ApiOperation(value = "create order", response = OrderDto.class)
-    public ResponseEntity<OrderDto> save(@RequestBody OrderDto orderDto) {
-        return ResponseEntity.ok().body(orderService.save(orderDto));
+    public ResponseEntity<PurchaseDto> save(@RequestBody PurchaseDto purchaseDto) {
+        return ResponseEntity.ok().body(orderService.save(purchaseDto));
     }
 
     @PutMapping

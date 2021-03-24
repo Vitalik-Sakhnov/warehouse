@@ -35,7 +35,7 @@ public class WriteOffController {
     public ResponseEntity<String> save(@RequestBody WriteOffDto writeOffDto) {
         if (writeOffService.save(writeOffDto) == null) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(
-                    String.format("The product is null or the quantity of the product to be written off exceeds" +
+                    String.format("The quantity of the product to be written off exceeds" +
                             " the quantity of the product in warehouse", writeOffDto.getGoodsQuantity()));
         }
         return ResponseEntity.ok().build();

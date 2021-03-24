@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,5 +34,12 @@ public class WarehouseController {
     @ApiOperation(value = "create warehouse", response = WarehouseDto.class)
     public ResponseEntity<WarehouseDto> save(@RequestBody WarehouseDto warehouseDto) {
         return ResponseEntity.ok().body(warehouseService.save(warehouseDto));
+    }
+
+    @PutMapping
+    @PreAuthorize("hasAnyAuthority('warehouse:write')")
+    @ApiOperation(value = "update the warehouse", response = WarehouseDto.class)
+    public ResponseEntity<WarehouseDto> update(@RequestBody WarehouseDto warehouseDto) {
+        return ResponseEntity.ok().body(warehouseService.update(warehouseDto));
     }
 }
