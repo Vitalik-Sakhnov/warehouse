@@ -14,7 +14,9 @@ import java.util.HashMap;
 @Data
 @ApiModel(value = "model purchase")
 public class PurchaseDto {
-    private Long id;
+    private Long purchaseId;
+
+    private Long consumptionId;
 
     @ApiModelProperty(value = "purchase map, key - product id, value - product quantity", example = "1, 1254")
     private HashMap<Long, Long> products;
