@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Vitaliy Sakhnov
+      changes:
+        - dropColumn:
+            tableName: consumption
+            columnName: id
+            columns:
+              - column:
+                  name: id
