@@ -13,8 +13,6 @@ import simbirsoft.internship.warehouse.entities.Product;
 @Data
 @ApiModel(value = "model consumption")
 public class ConsumptionDto {
-    private Long id;
-
     @ApiModelProperty(value = "product")
     private Product product;
 
