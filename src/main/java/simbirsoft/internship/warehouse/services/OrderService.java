@@ -12,7 +12,7 @@ public interface OrderService {
      * @param purchaseDto - заказ, который нужно добавить
      * @return - добавленный заказ
      */
-    PurchaseDto save(PurchaseDto purchaseDto);
+    OrderDto save(PurchaseDto purchaseDto);
 
     /**
      * Метод поиска всех заказов.
@@ -28,14 +28,6 @@ public interface OrderService {
      * @return - заказ, id которого равен передаваемому
      */
     OrderDto findById(Long orderId);
-
-    /**
-     * Метод обновления заказа.
-     *
-     * @param orderDto - новый заказ
-     * @return - обновлённый заказ
-     */
-    OrderDto update(OrderDto orderDto);
 
     /**
      * Метод удаления заказа по его id.

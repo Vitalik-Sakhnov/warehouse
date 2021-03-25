@@ -6,10 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import simbirsoft.internship.warehouse.dto.ConsumptionDto;
 import simbirsoft.internship.warehouse.dto.OrderDto;
 import simbirsoft.internship.warehouse.dto.PurchaseDto;
 import simbirsoft.internship.warehouse.entities.Order;
 import simbirsoft.internship.warehouse.repositories.OrderRepository;
+import simbirsoft.internship.warehouse.repositories.ProductRepository;
 import simbirsoft.internship.warehouse.services.ConsumptionService;
 import simbirsoft.internship.warehouse.services.OrderService;
 
@@ -21,27 +23,54 @@ public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     private OrderRepository orderRepository;
-
+    private ProductRepository productRepository;
     private ConsumptionService consumptionService;
-
     private final ModelMapper modelMapper;
+    private Double orderSum;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ConsumptionService consumptionService, ModelMapper modelMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository,
+                            ConsumptionService consumptionService, ModelMapper modelMapper) {
         this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
         this.consumptionService = consumptionService;
         this.modelMapper = modelMapper;
     }
 
     /**
      * Метод добавления заказа.
+     * Сначала записываем в дто заказа дату и id заказа, далее считаем сумму заказа. Далее записываем сумму заказа
+     * в дто заказа. После этого мапим эту дто в Order. Дальше создаем дто расхода и записываем в него заказ.
+     * После этого записываем в дто расхода товар и его количество. После записи сохраняем расход.
+     * После сохранения расхода, сохраняем заказ.
      *
      * @param purchaseDto - заказ, который нужно добавить
      * @return - добавленный заказ
      */
     @Override
-    public PurchaseDto save(PurchaseDto purchaseDto) {
-        Order order = orderRepository.save(modelMapper.map(orderDto, Order.class));
+    public OrderDto save(PurchaseDto purchaseDto) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setOrderDate(purchaseDto.getOrderDate());
+        orderDto.setId(purchaseDto.getPurchaseId());
+
+        // считаем сумму заказа
+        purchaseDto.getProducts().forEach((key, value) -> {
+            orderSum += productRepository.getOne(key).getPrice() * value;
+        });
+        orderDto.setOrderPrice(orderSum);
+
+        Order order = modelMapper.map(orderDto, Order.class);
+
+        ConsumptionDto consumptionDto = new ConsumptionDto();
+        consumptionDto.setOrder(order);
+
+        // записываем в расход товар и его количество, потом сохраняем
+        purchaseDto.getProducts().forEach((key, value) -> {
+            consumptionDto.setProduct(productRepository.getOne(key));
+            consumptionDto.setGoodsQuantity(value);
+            consumptionService.save(consumptionDto);
+        });
+        orderRepository.save(order);
         return modelMapper.map(order, OrderDto.class);
     }
 
@@ -77,17 +106,6 @@ public class OrderServiceImpl implements OrderService {
             ex.printStackTrace();
         }
         return modelMapper.map(order, OrderDto.class);
-    }
-
-    /**
-     * Метод обновления заказа.
-     *
-     * @param orderDto - новый заказ
-     * @return - обновлённый заказ
-     */
-    @Override
-    public OrderDto update(OrderDto orderDto) {
-        return save(orderDto);
     }
 
     /**
