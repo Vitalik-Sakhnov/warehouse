@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,15 +43,8 @@ public class OrderController {
     @PostMapping
     @PreAuthorize("hasAnyAuthority('order:write')")
     @ApiOperation(value = "create order", response = OrderDto.class)
-    public ResponseEntity<PurchaseDto> save(@RequestBody PurchaseDto purchaseDto) {
+    public ResponseEntity<OrderDto> save(@RequestBody PurchaseDto purchaseDto) {
         return ResponseEntity.ok().body(orderService.save(purchaseDto));
-    }
-
-    @PutMapping
-    @PreAuthorize("hasAnyAuthority('order:write')")
-    @ApiOperation(value = "update the order", response = OrderDto.class)
-    public ResponseEntity<OrderDto> update(@RequestBody OrderDto orderDto) {
-        return ResponseEntity.ok().body(orderService.update(orderDto));
     }
 
     @DeleteMapping
