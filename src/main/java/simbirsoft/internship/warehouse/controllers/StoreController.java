@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,24 +34,28 @@ public class StoreController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('store:read')")
     @ApiOperation(value = "find store by id", response = StoreDto.class)
     public ResponseEntity<StoreDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(storeService.findById(id));
     }
 
     @GetMapping("/{name}")
+    @PreAuthorize("hasAnyAuthority('store:read')")
     @ApiOperation(value = "find store by name", response = StoreDto.class)
     public ResponseEntity<StoreDto> findByName(@PathVariable String name) {
         return ResponseEntity.ok().body(storeService.findByName(name));
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('store:write')")
     @ApiOperation(value = "create store", response = StoreDto.class)
     public ResponseEntity<StoreDto> save(@RequestBody StoreDto storeDto) {
         return ResponseEntity.ok().body(storeService.save(storeDto));
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAnyAuthority('store:write')")
     @ApiOperation(value = "delete store by id", response = ResponseEntity.class)
     public ResponseEntity<String> deleteById(@RequestParam(name = "storeId") Long storeId) {
         if (!storeService.deleteById(storeId)) {
@@ -63,6 +68,7 @@ public class StoreController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyAuthority('store:write')")
     @ApiOperation(value = "update store", response = StoreDto.class)
     public ResponseEntity<StoreDto> update(@RequestBody StoreDto storeDto) {
         return ResponseEntity.ok().body(storeService.update(storeDto));

@@ -31,7 +31,9 @@ public class ConsumptionServiceImpl implements ConsumptionService {
      */
     @Override
     public ConsumptionDto save(ConsumptionDto consumptionDto) {
-        Consumption consumption = consumptionRepository.save(modelMapper.map(consumptionDto, Consumption.class));
+        Consumption consumption = consumptionRepository.saveAndFlush(
+                modelMapper.map(consumptionDto, Consumption.class)
+        );
         return modelMapper.map(consumption, ConsumptionDto.class);
     }
 

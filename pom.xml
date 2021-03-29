@@ -14,7 +14,7 @@
     <name>warehouse</name>
     <description>Project for SimbirSoft internship.</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>9</java.version>
         <lombok.version>1.18.16</lombok.version>
         <modelmapper.version>2.3.9</modelmapper.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
@@ -32,6 +32,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
