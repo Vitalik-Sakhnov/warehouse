@@ -12,6 +12,7 @@ import simbirsoft.internship.warehouse.repositories.WriteOffRepository;
 import simbirsoft.internship.warehouse.services.WarehouseService;
 import simbirsoft.internship.warehouse.services.WriteOffService;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -68,6 +69,15 @@ public class WriteOffServiceImpl implements WriteOffService {
     public List<WriteOffDto> findAll() {
         return modelMapper.map(
                 writeOffRepository.findAll(),
+                new TypeToken<List<WriteOffDto>>() {
+                }.getType()
+        );
+    }
+
+    @Override
+    public List<WriteOffDto> byPeriod(Date firstDate, Date secondDate) {
+        return modelMapper.map(
+                writeOffRepository.periodOfTime(firstDate, secondDate),
                 new TypeToken<List<WriteOffDto>>() {
                 }.getType()
         );

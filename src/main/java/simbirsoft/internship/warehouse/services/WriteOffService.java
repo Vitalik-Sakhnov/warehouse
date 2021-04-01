@@ -2,6 +2,7 @@ package simbirsoft.internship.warehouse.services;
 
 import simbirsoft.internship.warehouse.dto.WriteOffDto;
 
+import java.util.Date;
 import java.util.List;
 
 public interface WriteOffService {
@@ -19,4 +20,6 @@ public interface WriteOffService {
      * @return - список всех списаний
      */
     List<WriteOffDto> findAll();
+
+    List<WriteOffDto> byPeriod(Date firstDate, Date secondDate);
 }
