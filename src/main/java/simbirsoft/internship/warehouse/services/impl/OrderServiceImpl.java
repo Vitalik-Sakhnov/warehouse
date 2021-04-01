@@ -10,6 +10,7 @@ import simbirsoft.internship.warehouse.dto.ConsumptionDto;
 import simbirsoft.internship.warehouse.dto.OrderDto;
 import simbirsoft.internship.warehouse.dto.PurchaseDto;
 import simbirsoft.internship.warehouse.dto.SalesInformationDto;
+import simbirsoft.internship.warehouse.dto.SoldProductDto;
 import simbirsoft.internship.warehouse.entities.Order;
 import simbirsoft.internship.warehouse.repositories.OrderRepository;
 import simbirsoft.internship.warehouse.repositories.ProductRepository;
@@ -127,8 +128,33 @@ public class OrderServiceImpl implements OrderService {
         return false;
     }
 
+    /**
+     * Метод получения информации о выручке магазинов.
+     *
+     * @return информацию по выручке магазинов.
+     */
     @Override
     public List<SalesInformationDto> salesInformation() {
         return orderRepository.salesSum();
+    }
+
+    /**
+     * Метод получения информации о среднем чеке магазинов.
+     *
+     * @return информация о среднем чеке магазинов
+     */
+    @Override
+    public List<SalesInformationDto> checkInformation() {
+        return orderRepository.averageCheck();
+    }
+
+    /**
+     * Метод получения информации о проданных товарах по магазинам.
+     *
+     * @return информацию о проданных товарах в магазинах
+     */
+    @Override
+    public List<SoldProductDto> soldProductInformation() {
+        return orderRepository.soldProduct();
     }
 }
