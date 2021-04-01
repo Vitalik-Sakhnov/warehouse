@@ -1,7 +1,6 @@
 package simbirsoft.internship.warehouse.services;
 
 import simbirsoft.internship.warehouse.dto.StoreDto;
-
 import java.util.List;
 
 public interface StoreService {
@@ -51,5 +50,4 @@ public interface StoreService {
      * @return - обновлённый магазин
      */
     StoreDto update(StoreDto storeDto);
-
 }
