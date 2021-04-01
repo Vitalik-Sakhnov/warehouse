@@ -177,3 +177,145 @@ databaseChangeLog:
               - column: {name: last_name, value: Petrov}
               - column: {name: role, value: USER}
               - column: {name: status, value: ACTIVE}
+
+  - changeSet:
+      id: 6
+      author: Vitaliy Sakhnov
+      changes:
+        - insert:
+            tableName: order
+            columns:
+              - column: {name: order_price, value: 5000}
+              - column: {name: order_date, value: "2021-01-10"}
+        - insert:
+            tableName: order
+            columns:
+              - column: {name: order_price, value: 7500}
+              - column: {name: order_date, value: "2021-01-24"}
+        - insert:
+            tableName: order
+            columns:
+              - column: {name: order_price, value: 8100}
+              - column: {name: order_date, value: "2021-02-12"}
+        - insert:
+            tableName: order
+            columns:
+              - column: {name: order_price, value: 150000}
+              - column: {name: order_date, value: "2021-03-10"}
+        - insert:
+            tableName: order
+            columns:
+              - column: {name: order_price, value: 18750}
+              - column: {name: order_date, value: "2021-03-18"}
+
+  - changeSet:
+      id: 7
+      author: Vitaliy Sakhnov
+      changes:
+        - insert:
+            tableName: consumption
+            columns:
+              - column: {name: product_id, value: 1}
+              - column: {name: order_id, value: 1}
+              - column: {name: quantity_of_goods, value: 50}
+        - insert:
+            tableName: consumption
+            columns:
+              - column: {name: product_id, value: 2}
+              - column: {name: order_id, value: 2}
+              - column: {name: quantity_of_goods, value: 150}
+        - insert:
+            tableName: consumption
+            columns:
+              - column: {name: product_id, value: 3}
+              - column: {name: order_id, value: 3}
+              - column: {name: quantity_of_goods, value: 27}
+        - insert:
+            tableName: consumption
+            columns:
+              - column: {name: product_id, value: 7}
+              - column: {name: order_id, value: 4}
+              - column: {name: quantity_of_goods, value: 300}
+        - insert:
+            tableName: consumption
+            columns:
+              - column: {name: product_id, value: 5}
+              - column: {name: order_id, value: 5}
+              - column: {name: quantity_of_goods, value: 125}
+
+  - changeSet:
+      id: 8
+      author: Vitaliy Sakhnov
+      changes:
+        - insert:
+            tableName: supply
+            columns:
+              - column: {name: product_id, value: 3}
+              - column: {name: quantity_of_goods, value: 500}
+              - column: {name: approved, value: false}
+              - column: {name: supply_date, value: "2020-11-10"}
+        - insert:
+            tableName: supply
+            columns:
+              - column: {name: product_id, value: 2}
+              - column: {name: quantity_of_goods, value: 678}
+              - column: {name: approved, value: false}
+              - column: {name: supply_date, value: "2020-09-11"}
+        - insert:
+            tableName: supply
+            columns:
+              - column: {name: product_id, value: 6}
+              - column: {name: quantity_of_goods, value: 45}
+              - column: {name: approved, value: false}
+              - column: {name: supply_date, value: "2021-01-01"}
+        - insert:
+            tableName: supply
+            columns:
+              - column: {name: product_id, value: 5}
+              - column: {name: quantity_of_goods, value: 453}
+              - column: {name: approved, value: false}
+              - column: {name: supply_date, value: "2020-12-23"}
+        - insert:
+            tableName: supply
+            columns:
+              - column: {name: product_id, value: 8}
+              - column: {name: quantity_of_goods, value: 1432}
+              - column: {name: approved, value: false}
+              - column: {name: supply_date, value: "2021-02-19"}
+
+  - changeSet:
+      id: 9
+      author: Vitaliy Sakhnov
+      changes:
+        - insert:
+            tableName: write_off
+            columns:
+              - column: {name: reason, value: "expired"}
+              - column: {name: product_id, value: 1}
+              - column: {name: quantity_of_goods, value: 150}
+              - column: {name: approved, value: false}
+              - column: {name: write_off_date, value: "2021-03-25"}
+        - insert:
+            tableName: write_off
+            columns:
+              - column: {name: reason, value: "delivery to another warehouse"}
+              - column: {name: product_id, value: 8}
+              - column: {name: quantity_of_goods, value: 479}
+              - column: {name: approved, value: false}
+              - column: {name: write_off_date, value: "2020-02-25"}
+        - insert:
+            tableName: write_off
+            columns:
+              - column: {name: reason, value: "expired"}
+              - column: {name: product_id, value: 4}
+              - column: {name: quantity_of_goods, value: 50}
+              - column: {name: approved, value: false}
+              - column: {name: write_off_date, value: "2020-09-13"}
+        - insert:
+            tableName: write_off
+            columns:
+              - column: {name: reason, value: "expired"}
+              - column: {name: product_id, value: 2}
+              - column: {name: quantity_of_goods, value: 500}
+              - column: {name: approved, value: false}
+              - column: {name: write_off_date, value: "2020-12-21"}
