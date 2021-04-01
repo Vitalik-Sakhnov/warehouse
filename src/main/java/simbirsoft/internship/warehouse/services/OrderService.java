@@ -2,6 +2,7 @@ package simbirsoft.internship.warehouse.services;
 
 import simbirsoft.internship.warehouse.dto.OrderDto;
 import simbirsoft.internship.warehouse.dto.PurchaseDto;
+import simbirsoft.internship.warehouse.dto.SalesInformationDto;
 
 import java.util.List;
 
@@ -36,4 +37,6 @@ public interface OrderService {
      * @return - true, если удаление прошло успешно, false в противном случае
      */
     boolean deleteById(Long orderId);
+
+    List<SalesInformationDto> salesInformation();
 }

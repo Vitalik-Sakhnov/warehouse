@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import simbirsoft.internship.warehouse.dto.ConsumptionDto;
 import simbirsoft.internship.warehouse.dto.OrderDto;
 import simbirsoft.internship.warehouse.dto.PurchaseDto;
+import simbirsoft.internship.warehouse.dto.SalesInformationDto;
 import simbirsoft.internship.warehouse.entities.Order;
 import simbirsoft.internship.warehouse.repositories.OrderRepository;
 import simbirsoft.internship.warehouse.repositories.ProductRepository;
@@ -124,5 +125,10 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<SalesInformationDto> salesInformation() {
+        return orderRepository.salesSum();
     }
 }
