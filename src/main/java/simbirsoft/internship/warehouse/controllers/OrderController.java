@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import simbirsoft.internship.warehouse.dto.OrderDto;
 import simbirsoft.internship.warehouse.dto.PurchaseDto;
+import simbirsoft.internship.warehouse.dto.SalesInformationDto;
+import simbirsoft.internship.warehouse.dto.SoldProductDto;
 import simbirsoft.internship.warehouse.services.OrderService;
 
 import java.util.List;
@@ -58,5 +60,26 @@ public class OrderController {
             );
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/sum")
+    @PreAuthorize("hasAnyAuthority('order:read')")
+    @ApiOperation(value = "show stores revenue", response = List.class)
+    public ResponseEntity<List<SalesInformationDto>> storeSalesInformation() {
+        return ResponseEntity.ok().body(orderService.salesInformation());
+    }
+
+    @GetMapping("/check")
+    @PreAuthorize("hasAnyAuthority('order:read')")
+    @ApiOperation(value = "show stores revenue", response = List.class)
+    public ResponseEntity<List<SalesInformationDto>> avgCheckInformation() {
+        return ResponseEntity.ok().body(orderService.checkInformation());
+    }
+
+    @GetMapping("/sold")
+    @PreAuthorize("hasAnyAuthority('order:read')")
+    @ApiOperation(value = "goods sold by shops", response = List.class)
+    public ResponseEntity<List<SoldProductDto>> goodsSoldInformation() {
+        return ResponseEntity.ok().body(orderService.soldProductInformation());
     }
 }

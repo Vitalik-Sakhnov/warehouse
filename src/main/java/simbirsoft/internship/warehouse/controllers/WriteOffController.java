@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import simbirsoft.internship.warehouse.dto.WriteOffDto;
 import simbirsoft.internship.warehouse.services.WriteOffService;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -39,5 +41,11 @@ public class WriteOffController {
                             " the quantity of the product in warehouse", writeOffDto.getGoodsQuantity()));
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/period")
+    public ResponseEntity<List<WriteOffDto>> period(@RequestParam(name = "firstDate") Date firstDate,
+                                                    @RequestParam(name = "secondDate") Date secondDate) {
+        return ResponseEntity.ok().body(writeOffService.byPeriod(firstDate, secondDate));
     }
 }
